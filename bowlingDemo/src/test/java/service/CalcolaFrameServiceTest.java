@@ -135,28 +135,4 @@ public class CalcolaFrameServiceTest {
 
     }
 
-
-    @Test
-    public void calcolaValoreFrameSpare() {
-        ArrayList<TotalePartita.Frame> frameArrayList = new ArrayList<>() ;
-        frameArrayList.add(TotalePartita.Frame.builder().numeoFrame("1").valore("30").build());
-        frameArrayList.add(TotalePartita.Frame.builder().numeoFrame("2").valore("strike").build());
-        frameArrayList.add(TotalePartita.Frame.builder().numeoFrame("3").valore("strike").build());
-        TotalePartita totalePartita = TotalePartita.builder().Frames(frameArrayList).build();
-
-        calcolaFrameService.calcolaValoreFrame(BowlingRequest.Frame.builder()
-                        .numeroFrame("4").primoTiro("6").secondoTiro("2").build(),
-                totalePartita);
-
-        Assertions.assertThat(totalePartita.getFrames().get(0).getValore()).isEqualTo("30");
-        Assertions.assertThat(totalePartita.getFrames().get(0).getNumeoFrame()).isEqualTo("1");
-        Assertions.assertThat(totalePartita.getFrames().get(1).getValore()).isEqualTo("58");
-        Assertions.assertThat(totalePartita.getFrames().get(1).getNumeoFrame()).isEqualTo("2");
-        Assertions.assertThat(totalePartita.getFrames().get(2).getValore()).isEqualTo("74");
-        Assertions.assertThat(totalePartita.getFrames().get(2).getNumeoFrame()).isEqualTo("3");
-        Assertions.assertThat(totalePartita.getFrames().get(3).getValore()).isEqualTo("82");
-        Assertions.assertThat(totalePartita.getFrames().get(3).getNumeoFrame()).isEqualTo("4");
-
-
-    }
 }

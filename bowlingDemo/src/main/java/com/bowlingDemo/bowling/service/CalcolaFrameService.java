@@ -32,28 +32,71 @@ public class CalcolaFrameService {
 
     private void gestioneUltimoFrame(BowlingRequest.Frame frame, TotalePartita totalePartita) {
         gestioneStrikeAndFrame(frame, totalePartita);
-        String valorePrecendete = totalePartita.getFrames().get(totalePartita.getFrames().size() - 1).getValore();
+        gestioneNonoFrameSeStikeOSpare(frame, totalePartita);
+
         if (spare(frame)) {
+            String valore = totalePartita.getFrames().get(totalePartita.getFrames().size() - 1).getValore();
             totalePartita.getFrames().add(TotalePartita.Frame.builder().numeoFrame(frame.getNumeroFrame()).valore("" +
-                    (SPARE_VALORE + getValoreUltimoFrameSpare(frame) + parseInt(valorePrecendete))).build());
+                    (SPARE_VALORE + getValoreUltimoFrameSpare(frame) + parseInt(valore))).build());
 
         }
         if (strike(frame)) {
+            String valore = totalePartita.getFrames().get(totalePartita.getFrames().size() - 1).getValore();
+
             if (STRIKE.equalsIgnoreCase(frame.getSecondoTiro())) {
                 totalePartita.getFrames().add(TotalePartita.Frame.builder().numeoFrame(frame.getNumeroFrame()).valore("" +
-                        (STRIKE_VALORE + getValoreUltimoStrike(frame) + parseInt(valorePrecendete))).build());
+                        (STRIKE_VALORE + getValoreUltimoStrike(frame) + parseInt(valore))).build());
+            }
+
+            if (SPARE.equalsIgnoreCase(frame.getTerzoTiro())) {
+                totalePartita.getFrames().add(TotalePartita.Frame.builder().numeoFrame(frame.getNumeroFrame()).valore("" +
+                        (STRIKE_VALORE + SPARE_VALORE + parseInt(valore))).build());
             }
         }
 
+
         if (!spare(frame) && !strike(frame) && STRIKE.equalsIgnoreCase(frame.getSecondoTiro())) {
+            String valore = totalePartita.getFrames().get(totalePartita.getFrames().size() - 1).getValore();
             totalePartita.getFrames().add(TotalePartita.Frame.builder().numeoFrame(frame.getNumeroFrame()).valore(
-                    "" + (parseInt(frame.getPrimoTiro()) + parseInt(frame.getSecondoTiro()) + parseInt(valorePrecendete))).build());
+                    "" + (parseInt(frame.getPrimoTiro()) + parseInt(frame.getSecondoTiro()) + parseInt(valore))).build());
+
+        }
+    }
+
+    private void gestioneNonoFrameSeStikeOSpare(BowlingRequest.Frame frame, TotalePartita totalePartita) {
+        String valorePrecendete = totalePartita.getFrames().get(totalePartita.getFrames().size() - 1).getValore();
+
+        if (STRIKE.equalsIgnoreCase(valorePrecendete)) {
+
+            if (strike(frame)) {
+                if (STRIKE.equalsIgnoreCase(frame.getSecondoTiro())) {
+                    totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + STRIKE_VALORE + STRIKE_VALORE + STRIKE_VALORE));
+                } else {
+                    totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + STRIKE_VALORE + STRIKE_VALORE + parseInt(frame.getSecondoTiro())));
+                }
+
+            }
+            if (SPARE.equalsIgnoreCase(frame.getSecondoTiro())) {
+                totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + STRIKE_VALORE + SPARE_VALORE));
+
+            }
+            if (!STRIKE.equalsIgnoreCase(frame.getPrimoTiro()) && !SPARE.equalsIgnoreCase(frame.getSecondoTiro())) {
+                totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + parseInt(frame.getPrimoTiro()) + parseInt(frame.getSecondoTiro())));
+            }
+        }
+
+        if (SPARE.equalsIgnoreCase(valorePrecendete)) {
+            if (strike(frame)) {
+                totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + STRIKE_VALORE + SPARE_VALORE));
+            } else {
+                totalePartita.getFrames().get(totalePartita.getFrames().size()-1).setValore("" + (getValoreDueFramePrecedenti(totalePartita) + parseInt(frame.getPrimoTiro())));
+            }
 
         }
     }
 
     private int getValoreUltimoStrike(BowlingRequest.Frame frame) {
-        if (STRIKE.equalsIgnoreCase(frame.getSecondoTiro()) && STRIKE.equalsIgnoreCase(frame.getSecondoTiro())) {
+        if (STRIKE.equalsIgnoreCase(frame.getSecondoTiro()) && STRIKE.equalsIgnoreCase(frame.getTerzoTiro())) {
             return STRIKE_VALORE + STRIKE_VALORE;
         }
         if (SPARE.equalsIgnoreCase(frame.getTerzoTiro())) {

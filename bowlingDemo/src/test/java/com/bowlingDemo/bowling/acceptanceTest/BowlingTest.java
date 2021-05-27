@@ -31,7 +31,7 @@ public class BowlingTest {
 
         ArrayList<BowlingRequest.Frame> frameArrayList = new ArrayList<>() ;
 
-        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("1").primoTiro("1").secondoTiro("4").build());
+       frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("1").primoTiro("1").secondoTiro("4").build());
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("2").primoTiro("4").secondoTiro("5").build());
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("3").primoTiro("6").secondoTiro("spare").build());
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("4").primoTiro("5").secondoTiro("spare").build());
@@ -41,6 +41,16 @@ public class BowlingTest {
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("8").primoTiro("6").secondoTiro("spare").build());
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("9").primoTiro("strike").build());
         frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("10").primoTiro("2").secondoTiro("spare").terzoTiro("6").build());
+/*        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("1").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("2").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("3").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("4").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("5").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("6").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("7").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("8").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("9").primoTiro("strike").build());
+        frameArrayList.add( BowlingRequest.Frame.builder().numeroFrame("10").primoTiro("strike").secondoTiro("strike").terzoTiro("strike").build());*/
         BowlingRequest bowlingRequest  = BowlingRequest.builder().colpoArrayList(frameArrayList).build() ;
 
 
